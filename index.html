@@ -163,7 +163,7 @@
     .top-nav .nav-links {
       list-style: none;
       display: flex;
-      gap: 10vh;
+      gap: 5vh;
     }
 
     .top-nav .nav-links li a {
@@ -180,6 +180,47 @@
     .top-nav .nav-links li a.active {
       text-decoration: underline;
       color: var(--muted-color);
+    }
+
+/* Hamburger butonu varsayılan olarak gizli */
+.hamburger {
+  display: none;
+  font-size: 3vh;
+  color: #ffffff;
+  cursor: pointer;
+  padding: 1vh;
+  position: absolute;
+  right: 2vh;
+  top: 1vh;
+}
+
+    /* Mobil medya sorgusunda .nav-content gizlenmiyor artık */
+    @media (max-width: 768px) {
+      .top-nav .nav-links {
+        display: none; /* Varsayılan olarak gizli */
+        flex-direction: column;
+        position: absolute;
+        top: 8.4vh;
+        right: 0;
+        width: 50%;
+        background: var(--nav-bg);
+        padding: 2vh 0;
+        z-index: 999;
+        box-shadow: -2px 0 5px rgba(0, 0, 0, 0.5);
+      }
+      .top-nav .nav-links.active {
+        display: flex; /* Aktif olunca görünür */
+      }
+      .hamburger {
+        display: block; /* Hamburger butonu görünür */
+        font-size: 3vh;
+        color: #ffffff;
+        cursor: pointer;
+        padding: 1vh;
+        position: absolute;
+        right: 2vh;
+        top: 1vh;
+      }
     }
 
     .section {
@@ -244,7 +285,7 @@
 .dramatic-title {
   position: fixed;
   top: 0;
-  left: -3vh;
+  left: -1.2vh;
   width: 100vw;
   height: 87vh;
   display: flex;
@@ -270,6 +311,33 @@
   -webkit-background-clip: text;
   background-clip: text;
 }
+
+/* 768px için mevcut medya sorgusu */
+@media (max-width: 768px) {
+  #home::after {
+    background: radial-gradient(
+      circle at 100% 45%,
+      #606060 0%,
+      #303030 20%,
+      #151515 50%,
+      transparent 80%
+    );
+  }
+}
+
+/* Yeni medya sorgusu: 480px ve altında sağa sabitleme */
+@media (max-width: 480px) {
+  #home::after {
+    background: radial-gradient(
+      circle at 100% 45%, /* Sağda tutmak için 80% kullanıyoruz */
+      #606060 0%,
+      #303030 20%,
+      #151515 50%,
+      transparent 80%
+    );
+  }
+}
+Açı
 
     @keyframes pulseGlow {
       0% {box-shadow: 0 0 5px rgba(255, 255, 255, 0.5); }
@@ -625,21 +693,22 @@
   </style>
 </head>
 <body oncopy="return false;" oncut="return false;" onpaste="return false;">
-  <nav class="top-nav">
-    <div class="logo">
-      <img src="icons/quik_icon.png" alt="Quik Icon">
-      <span>Quik</span>
-    </div>
-    <div class="nav-content">
-      <ul class="nav-links">
-        <li><a href="#home" class="active">Anasayfa</a></li>
-        <li><a href="#about">Hakkında</a></li>
-        <li><a href="#meet">Modeller</a></li>
-        <li><a href="#prime">Quik-Prime</a></li>
-        <li><a href="#think">Quik-Think</a></li>
-      </ul>
-    </div>
-  </nav>
+<nav class="top-nav">
+  <div class="logo">
+    <img src="icons/quik_icon.png" alt="Quik Icon">
+    <span>Quik</span>
+  </div>
+  <div class="nav-content">
+    <ul class="nav-links">
+      <li><a href="#home" class="active">Anasayfa</a></li>
+      <li><a href="#about">Hakkında</a></li>
+      <li><a href="#meet">Modeller</a></li>
+      <li><a href="#prime">Quik-Prime</a></li>
+      <li><a href="#think">Quik-Think</a></li>
+    </ul>
+  </div>
+  <div class="hamburger">☰</div>
+</nav>
 
   <main>
     <section id="home" class="section initial-load">
@@ -1171,6 +1240,11 @@
     window.addEventListener('hashchange', () => {
       setInitialSectionIndex();
     });
+
+// Hamburger menüyü açma/kapama
+document.querySelector('.hamburger').addEventListener('click', () => {
+  document.querySelector('.nav-links').classList.toggle('active');
+});
 
     animateHome();
     animateAbout();
