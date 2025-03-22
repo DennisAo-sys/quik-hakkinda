@@ -1,0 +1,1182 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quik</title>
+  <link rel="icon" href="icons/quik_icon.png" type="image/png">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Dancing+Script:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary-color: #000000;
+      --secondary-color: #000000;
+      --text-color: #ffffff;
+      --muted-color: #cccccc;
+      --nav-bg: #101010;
+      --rect-width: 60%;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Helvetica', sans-serif;
+      user-select: none;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+    }
+
+    html {
+      scroll-snap-type: y mandatory;
+      scroll-behavior: smooth;
+      height: 100%;
+    }
+
+    body {
+      background: var(--primary-color);
+      color: var(--text-color);
+      position: relative;
+      margin: 0;
+      height: 100%;
+      overflow-x: hidden;
+    }
+
+#home {
+  position: relative;
+  background: #000000;
+  overflow: hidden;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+#home::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    45deg,
+    #000000 0%,
+    rgba(40, 40, 40, 0.4) 30%, /* Hafif gri ton */
+    rgba(20, 20, 20, 0.2) 70%, /* Daha koyu bir geçiş */
+    rgba(0, 0, 0, 0.1) 100%
+  );
+  opacity: 0.7; /* Daha belirgin bir katman */
+  pointer-events: none;
+  z-index: 1;
+}
+
+#home::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  background: 
+    radial-gradient(
+      circle at 100% 50%,
+      #505050 0%, /* Daha açık bir gri ton */
+      #303030 15%, /* Yumuşak geçiş */
+      #202020 30%, /* Orta ton */
+      transparent 70%
+    );
+  opacity: 0.9;
+  pointer-events: none;
+  z-index: 1;
+  will-change: opacity, transform;
+  animation: glowEffect 6s ease-in-out infinite;
+}
+
+@keyframes glowEffect {
+  0%, 100% {
+    opacity: 0.8; /* Başlangıç ve bitişte daha düşük opacity */
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1; /* Ortada tam parlama */
+    transform: scale(1.05); /* Daha belirgin bir ölçek artışı */
+  }
+}
+
+@media (max-width: 768px) {
+  #home::after {
+    background: radial-gradient(
+      circle at 50% 50%,
+      #606060 0%,
+      #303030 20%,
+      #151515 50%,
+      transparent 80%
+    );
+  }
+}
+
+    .top-nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 8.4vh;
+      background: var(--nav-bg);
+      display: flex;
+      align-items: center;
+      z-index: 1000;
+      border-bottom: 0.2vh solid rgba(128, 128, 128, 0.2);
+    }
+
+    .top-nav .logo {
+      position: absolute;
+      left: 3vh;
+      top: 2.5vh;
+      display: flex;
+      align-items: center;
+      gap: 1vh;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+
+    .top-nav .logo img {
+      width: 3.5vh;
+      height: 3.5vh;
+      filter: invert(1);
+    }
+
+    .top-nav .logo span {
+      font-size: 2.5vh;
+      font-weight: 600;
+      color: #ffffff;
+    }
+
+    .nav-content {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+    }
+
+    .top-nav .nav-links {
+      list-style: none;
+      display: flex;
+      gap: 10vh;
+    }
+
+    .top-nav .nav-links li a {
+      color: #ffffff;
+      text-decoration: none;
+      font-size: 2.2vh;
+      transition: color 0.3s ease;
+    }
+
+    .top-nav .nav-links li a:hover {
+      color: var(--muted-color);
+    }
+
+    .top-nav .nav-links li a.active {
+      text-decoration: underline;
+      color: var(--muted-color);
+    }
+
+    .section {
+      position: relative;
+      height: 100vh;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      scroll-snap-align: start;
+      background: transparent;
+      overflow: hidden;
+      opacity: 0;
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+
+    .section.in-view {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    #home.initial-load {
+      opacity: 0;
+      animation: fadeInSection 1.5s ease-in 0.1s forwards;
+    }
+
+    @keyframes fadeInSection {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .section li {
+      margin-bottom: 1vh;
+    }
+
+    .section p {
+      margin-top: 5vh;
+    }
+
+    .content {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      max-width: 100%;
+      border-radius: 10px;
+    }
+
+    .content p { line-height: 2rem; }
+    .content h2 { line-height: 2rem; }
+    .content li { line-height: 2rem; }
+
+    .bgCanvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+.dramatic-title {
+  position: fixed;
+  top: 0;
+  left: -3vh;
+  width: 100vw;
+  height: 87vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 36vw; /* Gerekirse değeri ayarlayın */
+  color: transparent; /* Yazı rengi şeffaf, sadece kontur görünür */
+  -webkit-text-stroke: 0.5vh #404040; /* Kontur rengi ve kalınlığı */
+  background: none;
+  cursor: default;
+  z-index: -1;
+  transition: background 0.5s ease;
+  /* Gerekirse padding veya margin ayarlarını kaldırabilirsiniz */
+}
+
+.dramatic-title.hover-effect {
+  /* Hover durumunda, mouse konumuna göre radial gradient uygulanıyor */
+  background: radial-gradient(
+    circle at var(--mouse-x, 50%) var(--mouse-y, 50%), 
+    rgba(255, 255, 255, 0.8) 0%, 
+    transparent 15%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+    @keyframes pulseGlow {
+      0% {box-shadow: 0 0 5px rgba(255, 255, 255, 0.5); }
+      25% {box-shadow: 0 0 20px rgba(255, 255, 255, 0.8); }
+      50% {box-shadow: 0 0 10px rgba(255, 255, 255, 0.6); }
+      75% {box-shadow: 0 0 25px rgba(255, 255, 255, 1); }
+      100% {box-shadow: 0 0 5px rgba(255, 255, 255, 0.5); }
+    }
+
+.btn {
+  position: fixed;
+  bottom: 8%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 2.8vh 5.6vh;
+  background: var(--text-color);
+  color: var(--primary-color);
+  text-decoration: none;
+  font-size: 2.5vh;
+  border-radius: 5vh;
+  transition: background 0.5s ease, transform 0.5s ease;
+  animation: pulseGlow 5s infinite ease-in-out;
+  z-index: 1000; /* Gerekirse diğer içeriklerin üstünde kalması için */
+}
+
+.btn-text {
+  position: fixed;
+  bottom: 0;
+  right: 25vh;
+  width: 100vw;
+  height: 19vh;
+  display: flex;
+  align-items: right;
+  justify-content: right;
+  font-size: 1.5vw; /* Gerekirse değeri ayarlayın */
+  color: #505050; /* Yazı rengi şeffaf, sadece kontur görünür */
+  font-family: 'Dancing Script', cursive;
+
+  background: none;
+  cursor: default;
+  z-index: -1;
+  transition: background 0.5s ease;
+  /* Gerekirse padding veya margin ayarlarını kaldırabilirsiniz */
+}
+    .btn:hover {
+      background: var(--muted-color);
+
+    }
+
+    footer {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background: #101010;
+      padding: 2vh 4vh;
+      text-align: center;
+      z-index: 1000;
+      box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.5);
+    }
+
+    .footer-content {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+      gap: 20px;
+    }
+
+    footer p {
+      margin: 0;
+      font-size: 2vh;
+      color: var(--muted-color);
+    }
+
+    .modern-about {
+      max-width: 800px;
+      padding: 20px;
+      border-radius: 20px;
+      animation: fadeInUp 1s ease forwards;
+    }
+
+    .about-title {
+      font-size: 2.5rem;
+      font-weight: 700;
+
+      background: linear-gradient(
+        90deg,
+        transparent 0%,
+        #fff 10%,
+        transparent 20%
+      );
+      background-size: 500% 100%;
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      text-align: center;
+      letter-spacing: 1px;
+
+    }
+
+    @keyframes slideGradient {
+      0% { background-position: 100% 50%; }
+      50% { background-position: -100% 50%; }
+      100% { background-position: 100% 50%; }
+    }
+
+    .intro-text {
+      font-size: 1rem;
+      line-height: 1.6;
+      color: #ffffff;
+      margin-bottom: 15px;
+      text-align: center;
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .modern-about h2 {
+      font-size: 2rem;
+      margin-bottom: 25px;
+      background: linear-gradient(135deg, #ffffff, #cccccc, #222222);
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      animation: gradientShift 5s linear infinite;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+    }
+
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .modern-about p {
+      font-size: 1.1rem;
+      line-height: 1.7;
+      color: #e0e0e0;
+      margin-bottom: 20px;
+    }
+
+    .about-features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 25px;
+      justify-content: center;
+    }
+
+    .about-features .feature {
+      background: #303030;
+      padding: 18px 10px;
+      width: 100%;
+      border-radius: 15px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(8px);
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+      text-align: center;
+      cursor: default; /* Tıklanabilirliği kaldır */
+    }
+
+    .about-features .feature:hover {
+      transform: translateY(-10px) scale(1.03);
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+    }
+
+    .about-features .feature h3 {
+      font-size: 1.2rem;
+      margin-bottom: 15px;
+      background: linear-gradient(135deg, #ffffff, #bbbbbb);
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      animation: gradientShift 4s ease infinite;
+    }
+
+    .about-features .feature p {
+      font-size: 0.9rem;
+      line-height: 1.6;
+      color: #d0d0d0;
+    }
+
+/* ====================== */
+/* Timeline (Hakkında) CSS */
+/* ====================== */
+/* Zaman Çizelgesi Kapsayıcısı */
+/* "Hakkında" Bölümü için Güncellenmiş Stil */
+.timeline-wrapper {
+  text-align: center;
+  margin: 0 auto;
+  padding: 0 2vh;
+}
+
+.timeline {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 23vh;
+  padding: 0 1vh;
+}
+
+.timeline-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+  position: relative;
+}
+
+.timeline-item::before {
+  content: '';
+  position: absolute;
+  top: 4vh;
+  left: -50%;
+  right: -50%;
+  height: 1vh;
+  background: #fff;
+  background-size: 200% 100%;
+  z-index: -1;
+  animation: gradientFlow 6s infinite linear;
+}
+
+.timeline-icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 15vh;
+  height: 10vh;
+  border-radius: 4vh;
+  background: #101010;
+  color: #fff;
+  font-weight: 700;
+  font-size: 2.5vh;
+  margin-bottom: 4.5vh;
+  box-shadow: 0 0 15px rgba(0,0,0,0.5);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border: 1px solid #505050;
+}
+
+.timeline-icon:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 25px rgba(255,255,255,0.3);
+}
+
+.timeline-content {
+  background: #101010;
+  padding: 3vh;
+  border-radius: 5vh;
+  border: 2px solid #303030;
+  backdrop-filter: blur(5px);
+  max-width: 55vh;
+  min-width: 55vh;
+  max-height: 30vh;
+  min-height: 30vh;
+  box-shadow: 0 6px 12px rgba(0,0,0,0.4);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  overflow: hidden;
+}
+
+.timeline-content:hover {
+  transform: translateY(-1vh);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.6);
+}
+
+.timeline-content h3 {
+  margin: 0 0 3vh 0;
+  font-size: 3.5vh;
+  background: linear-gradient(135deg, #fff, #bbb);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: gradientShift 5s ease infinite;
+}
+
+.timeline-content p {
+  font-size: 2.5vh;
+  line-height: 1.6;
+  color: #e0e0e0;
+  margin: 0;
+}
+
+@keyframes gradientFlow {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 200% 50%; }
+}
+
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+
+/* Degrade çizgi animasyonu */
+@keyframes gradientLine {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* Daire ikonu animasyonu */
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    background-position: 0% 50%;
+  }
+  50% {
+    transform: scale(1.1);
+    background-position: 100% 50%;
+  }
+  100% {
+    transform: scale(1);
+    background-position: 0% 50%;
+  }
+}
+
+/* Degrade başlık animasyonu */
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+    #about .content { text-align: left; }
+    #about .modern-about { text-align: left; }
+    #about .about-features { justify-content: flex-start; }
+
+.dramatic-title,
+.btn,
+.btn-text {
+  opacity: 0; /* Default state: hidden */
+  transition: opacity 0.3s ease; /* Smooth fade effect */
+}
+
+#home.in-view .dramatic-title,
+#home.in-view .btn,
+#home.in-view .btn-text {
+  opacity: 1; /* Visible when #home is in view */
+}
+
+  </style>
+</head>
+<body oncopy="return false;" oncut="return false;" onpaste="return false;">
+  <nav class="top-nav">
+    <div class="logo">
+      <img src="icons/quik_icon.png" alt="Quik Icon">
+      <span>Quik</span>
+    </div>
+    <div class="nav-content">
+      <ul class="nav-links">
+        <li><a href="#home" class="active">Anasayfa</a></li>
+        <li><a href="#about">Hakkında</a></li>
+        <li><a href="#meet">Modeller</a></li>
+        <li><a href="#prime">Quik-Prime</a></li>
+        <li><a href="#think">Quik-Think</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main>
+    <section id="home" class="section initial-load">
+      <canvas class="bgCanvas" id="canvas-home"></canvas>
+      <div class="content">
+        <h1 class="dramatic-title">Quik</h1>
+        <a href="file:///C:/Users/bdeni/OneDrive/Masa%C3%BCst%C3%BC/Quik_App_v2/Quik_html.html" target="_blank" class="btn">Quik'i Hemen Deneyin</a>
+        <p class="btn-text">Hızlı ve güvenilir yapay zeka modeliniz</p>
+	</div>
+    </section>
+
+<section id="about" class="section">
+  <canvas class="bgCanvas" id="canvas-about"></canvas>
+  <div class="content timeline-wrapper">
+    <div class="timeline">
+      <!-- 1. Adım -->
+      <div class="timeline-item">
+        <div class="timeline-icon">
+          <span>2024</span>
+        </div>
+        <div class="timeline-content">
+          <h3>Başlangıç</h3>
+          <p>
+            Quik, modern bir yapay zeka modeli olarak, Transformers tabanlı modern bir mimari ile tasarlanmaya başladı.
+          </p>
+        </div>
+      </div>
+      <!-- 2. Adım -->
+      <div class="timeline-item">
+        <div class="timeline-icon">
+          <span>2025</span>
+        </div>
+        <div class="timeline-content">
+          <h3>Buluşma</h3>
+          <p>
+            Güçlü donanım ve altyapısı ile Quik, zorlu simülasyonlarını tamamladıktan sonra kullanıcılara sunuldu.
+          </p>
+        </div>
+      </div>
+      <!-- 3. Adım -->
+      <div class="timeline-item">
+        <div class="timeline-icon">
+          <span>Gelecek</span>
+        </div>
+        <div class="timeline-content">
+          <h3>Yolculuk</h3>
+          <p>
+            Hız ve inovasyon odaklı Quik, gelecekte daha hızlı bir model olmak için her gün yenileniyor ve geliştiriliyor.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+    <section id="meet" class="section">
+      <canvas class="bgCanvas" id="canvas-meet"></canvas>
+      <div class="content modern-about">
+        <h2 class="about-title">Quik ile Tanış</h2>
+        <p class="intro-text">Quik'in iki yeni yüzü ile tanışın!</p>
+        <div class="about-features">
+          <div class="feature">
+            <h3>Quik-Prime</h3>
+            <p>Daha hızlı model. Günlük görevler için tasarlandı.</p>
+          </div>
+          <div class="feature">
+            <h3>Quik-Think</h3>
+            <p>Akıl yürüten model. Mantıksal görevler için tasarlandı.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="prime" class="section">
+      <canvas class="bgCanvas" id="canvas-prime"></canvas>
+      <div class="content modern-about">
+        <h2 class="about-title">Quik-Prime: Hız ve Verimlilik</h2>
+        <p class="intro-text">Quik-Prime, günlük görevlerinizde üstün hız ve verimlilik sunmak üzere tasarlandı.</p>
+        <p class="intro-text">İş akışınızı hızlandırır, zaman kazandırır ve günlük görevlerinizi kolaylıkla tamamlamanızı sağlar.</p>
+      </div>
+    </section>
+
+    <section id="think" class="section">
+      <canvas class="bgCanvas" id="canvas-think"></canvas>
+      <div class="content modern-about">
+        <h2 class="about-title">Quik-Think: Akıl ve Mantık</h2>
+        <p class="intro-text">Quik-Think, karmaşık düşünme süreçlerinizde size destek olmak için geliştirildi.</p>
+        <p class="intro-text">Mantıksal problemleri çözer, analizler yapar ve doğru kararlar almanıza yardımcı olur.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="footer-content">
+      <p>© 2025 Quik. Tüm hakları saklıdır.</p>
+    </div>
+  </footer>
+
+  <script>
+    document.addEventListener('keydown', (e) => {
+      if (e.ctrlKey && (e.key === 'c' || e.key === 'x' || e.key === 'v')) {
+        e.preventDefault();
+      }
+    });
+
+    function animateHome() {
+      const canvas = document.getElementById('canvas-home');
+      const ctx = canvas.getContext('2d');
+      canvas.width = canvas.parentElement.clientWidth;
+      canvas.height = canvas.parentElement.clientHeight;
+
+      ctx.fillStyle = '#000000';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      let particles = [];
+      const particleCount = 50;
+
+      class Particle {
+        constructor() {
+          this.x = Math.random() * canvas.width;
+          this.y = Math.random() * canvas.height;
+          this.size = Math.random() * 0.5 + 0.5;
+          this.speedX = Math.random() * 0.5 - 0.25;
+          this.speedY = Math.random() * 0.5 - 0.25;
+        }
+        update() {
+          this.x += this.speedX;
+          this.y += this.speedY;
+          if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
+          if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
+        }
+        draw() {
+          ctx.fillStyle = "#ffffff";
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
+
+      function init() {
+        particles = [];
+        for (let i = 0; i < particleCount; i++) {
+          particles.push(new Particle());
+        }
+      }
+
+      function connectParticles() {
+        for (let a = 0; a < particles.length; a++) {
+          for (let b = a; b < particles.length; b++) {
+            let dx = particles[a].x - particles[b].x;
+            let dy = particles[a].y - particles[b].y;
+            let distance = Math.sqrt(dx * dx + dy * dy);
+            if (distance < 80) {
+              ctx.strokeStyle = `rgba(255,255,255,${1 - distance / 80})`;
+              ctx.lineWidth = 1;
+              ctx.beginPath();
+              ctx.moveTo(particles[a].x, particles[a].y);
+              ctx.lineTo(particles[b].x, particles[b].y);
+              ctx.stroke();
+            }
+          }
+        }
+      }
+
+      function animate() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        particles.forEach(p => {
+          p.update();
+          p.draw();
+        });
+        connectParticles();
+        requestAnimationFrame(animate);
+      }
+
+      init();
+      animate();
+      window.addEventListener('resize', () => {
+        canvas.width = canvas.parentElement.clientWidth;
+        canvas.height = canvas.parentElement.clientHeight;
+        init();
+      });
+      canvas.addEventListener('contextmenu', (e) => e.preventDefault());
+    }
+
+    function animateAbout() {
+      const canvas = document.getElementById('canvas-about');
+      const ctx = canvas.getContext('2d');
+      canvas.width = canvas.parentElement.clientWidth;
+      canvas.height = canvas.parentElement.clientHeight;
+
+      let squares = [];
+      const squareCount = 100;
+
+      class Square {
+        constructor() {
+          this.x = Math.random() * canvas.width;
+          this.y = Math.random() * canvas.height;
+          this.size = Math.random() * 5 + 5;
+          this.speedX = Math.random() * 0.5 - 0.25;
+          this.speedY = Math.random() * 0.5 - 0.25;
+          this.color = "#bbbbbb";
+        }
+        update() {
+          this.x += this.speedX;
+          this.y += this.speedY;
+          if (this.x < 0 || this.x + this.size > canvas.width) this.speedX *= -1;
+          if (this.y < 0 || this.y + this.size > canvas.height) this.speedY *= -1;
+        }
+        draw() {
+          ctx.fillStyle = this.color;
+          ctx.fillRect(this.x, this.y, this.size, this.size);
+        }
+      }
+
+      function init() {
+        squares = [];
+        for (let i = 0; i < squareCount; i++) {
+          squares.push(new Square());
+        }
+      }
+
+      function animate() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        squares.forEach(s => {
+          s.update();
+          s.draw();
+        });
+        requestAnimationFrame(animate);
+      }
+
+      init();
+      animate();
+      window.addEventListener('resize', () => {
+        canvas.width = canvas.parentElement.clientWidth;
+        canvas.height = canvas.parentElement.clientHeight;
+        init();
+      });
+      canvas.addEventListener('contextmenu', (e) => e.preventDefault());
+    }
+
+    function animateMeet() {
+      const canvas = document.getElementById('canvas-meet');
+      const ctx = canvas.getContext('2d');
+      canvas.width = canvas.parentElement.clientWidth;
+      canvas.height = canvas.parentElement.clientHeight;
+
+      let stars = [];
+      const starCount = 100;
+
+      class Star {
+        constructor() {
+          this.x = Math.random() * canvas.width;
+          this.y = Math.random() * canvas.height;
+          this.size = Math.random() * 2;
+          this.speed = Math.random() * 0.1 + 0.1;
+        }
+        update() {
+          this.y += this.speed;
+          if (this.y > canvas.height) {
+            this.y = 0;
+            this.x = Math.random() * canvas.width;
+          }
+        }
+        draw() {
+          ctx.fillStyle = "#ffffff";
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
+
+      function init() {
+        stars = [];
+        for (let i = 0; i < starCount; i++) {
+          stars.push(new Star());
+        }
+      }
+
+      function animate() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        stars.forEach(star => {
+          star.update();
+          star.draw();
+        });
+        requestAnimationFrame(animate);
+      }
+
+      init();
+      animate();
+      window.addEventListener('resize', () => {
+        canvas.width = canvas.parentElement.clientWidth;
+        canvas.height = canvas.parentElement.clientHeight;
+        init();
+      });
+      canvas.addEventListener('contextmenu', (e) => e.preventDefault());
+    }
+
+    function animatePrime() {
+      const canvas = document.getElementById('canvas-prime');
+      const ctx = canvas.getContext('2d');
+      canvas.width = canvas.parentElement.clientWidth;
+      canvas.height = canvas.parentElement.clientHeight;
+
+      let stars = [];
+      const starCount = 100;
+
+      class Star {
+        constructor() {
+          this.x = Math.random() * canvas.width;
+          this.y = Math.random() * canvas.height;
+          this.size = Math.random() * 2;
+          this.speed = Math.random() * 0.1 + 0.1;
+        }
+        update() {
+          this.y += this.speed;
+          if (this.y > canvas.height) {
+            this.y = 0;
+            this.x = Math.random() * canvas.width;
+          }
+        }
+        draw() {
+          ctx.fillStyle = "#ffffff";
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
+
+      function init() {
+        stars = [];
+        for (let i = 0; i < starCount; i++) {
+          stars.push(new Star());
+        }
+      }
+
+      function animate() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        stars.forEach(star => {
+          star.update();
+          star.draw();
+        });
+        requestAnimationFrame(animate);
+      }
+
+      init();
+      animate();
+      window.addEventListener('resize', () => {
+        canvas.width = canvas.parentElement.clientWidth;
+        canvas.height = canvas.parentElement.clientHeight;
+        init();
+      });
+      canvas.addEventListener('contextmenu', (e) => e.preventDefault());
+    }
+
+    function animateThink() {
+      const canvas = document.getElementById('canvas-think');
+      const ctx = canvas.getContext('2d');
+      canvas.width = canvas.parentElement.clientWidth;
+      canvas.height = canvas.parentElement.clientHeight;
+
+      let stars = [];
+      const starCount = 100;
+
+      class Star {
+        constructor() {
+          this.x = Math.random() * canvas.width;
+          this.y = Math.random() * canvas.height;
+          this.size = Math.random() * 2;
+          this.speed = Math.random() * 0.1 + 0.1;
+        }
+        update() {
+          this.y += this.speed;
+          if (this.y > canvas.height) {
+            this.y = 0;
+            this.x = Math.random() * canvas.width;
+          }
+        }
+        draw() {
+          ctx.fillStyle = "#ffffff";
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
+
+      function init() {
+        stars = [];
+        for (let i = 0; i < starCount; i++) {
+          stars.push(new Star());
+        }
+      }
+
+      function animate() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        stars.forEach(star => {
+          star.update();
+          star.draw();
+        });
+        requestAnimationFrame(animate);
+      }
+
+      init();
+      animate();
+      window.addEventListener('resize', () => {
+        canvas.width = canvas.parentElement.clientWidth;
+        canvas.height = canvas.parentElement.clientHeight;
+        init();
+      });
+      canvas.addEventListener('contextmenu', (e) => e.preventDefault());
+    }
+
+    const title = document.querySelector('.dramatic-title');
+    if (title) {
+      title.addEventListener('mouseenter', () => title.classList.add('hover-effect'));
+      title.addEventListener('mousemove', (e) => {
+        const rect = title.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        const xPercent = (x / rect.width) * 100;
+        const yPercent = (y / rect.height) * 100;
+        title.style.setProperty('--mouse-x', `${xPercent}%`);
+        title.style.setProperty('--mouse-y', `${yPercent}%`);
+      });
+      title.addEventListener('mouseleave', () => title.classList.remove('hover-effect'));
+    }
+
+    const navLinks = document.querySelectorAll('.top-nav .nav-links li a');
+    function activateNavLink(sectionId) {
+      navLinks.forEach(link => {
+        link.classList.toggle('active', link.getAttribute('href') === '#' + sectionId);
+      });
+      const sectionTitles = {
+        'home': 'Quik - Anasayfa',
+        'about': 'Quik - Hakkında',
+        'meet': 'Quik - Tanışma',
+        'prime': 'Quik - Prime',
+        'think': 'Quik - Think'
+      };
+      document.title = sectionTitles[sectionId] || 'Quik';
+    }
+
+    const observerOptions = { threshold: 0.6 };
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in-view');
+          activateNavLink(entry.target.id);
+        } else {
+          entry.target.classList.remove('in-view');
+        }
+      });
+    }, observerOptions);
+
+    document.querySelectorAll('.section').forEach(section => observer.observe(section));
+
+    const sections = document.querySelectorAll('.section');
+    let currentSectionIndex = 0;
+    let isScrolling = false;
+
+    function setInitialSectionIndex() {
+      const hash = window.location.hash;
+      if (hash) {
+        const targetSection = document.querySelector(hash);
+        if (targetSection) {
+          currentSectionIndex = Array.from(sections).indexOf(targetSection);
+          targetSection.scrollIntoView({ behavior: 'smooth' });
+          return;
+        }
+      }
+      currentSectionIndex = 0;
+      sections[0].scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function scrollToSection(index) {
+      if (index >= 0 && index < sections.length && !isScrolling) {
+        isScrolling = true;
+        currentSectionIndex = index;
+        sections[currentSectionIndex].scrollIntoView({ behavior: 'smooth' });
+        activateNavLink(sections[currentSectionIndex].id);
+        setTimeout(() => isScrolling = false, 600);
+      }
+    }
+
+    document.querySelectorAll('.top-nav .nav-links li a').forEach(link => {
+      link.addEventListener('click', function(e) {
+        e.preventDefault();
+        const targetId = this.getAttribute('href');
+        const targetElement = document.querySelector(targetId);
+        if (targetElement) {
+          const index = Array.from(sections).indexOf(targetElement);
+          scrollToSection(index);
+        }
+      });
+    });
+
+    document.querySelector('.top-nav .logo').addEventListener('click', () => {
+      scrollToSection(0);
+    });
+
+    window.addEventListener('wheel', (e) => {
+      if (isScrolling) return;
+      if (e.deltaY > 0 && currentSectionIndex < sections.length - 1) {
+        scrollToSection(currentSectionIndex + 1);
+      } else if (e.deltaY < 0 && currentSectionIndex > 0) {
+        scrollToSection(currentSectionIndex - 1);
+      }
+    }, { passive: true });
+
+    window.addEventListener('keydown', (e) => {
+      if (isScrolling) return;
+      if (e.key === 'ArrowDown' && currentSectionIndex < sections.length - 1) {
+        e.preventDefault();
+        scrollToSection(currentSectionIndex + 1);
+      } else if (e.key === 'ArrowUp' && currentSectionIndex > 0) {
+        e.preventDefault();
+        scrollToSection(currentSectionIndex - 1);
+      }
+    });
+
+    window.addEventListener('load', () => {
+      const homeSection = document.querySelector('#home');
+      homeSection.classList.add('initial-load');
+      setInitialSectionIndex();
+      setTimeout(() => {
+        homeSection.classList.remove('initial-load');
+      }, 2000);
+    });
+
+    window.addEventListener('hashchange', () => {
+      setInitialSectionIndex();
+    });
+
+    animateHome();
+    animateAbout();
+    animateMeet();
+    animatePrime();
+    animateThink();
+  </script>
+</body>
+</html>
