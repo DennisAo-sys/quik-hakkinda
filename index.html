@@ -625,6 +625,79 @@ Açı
   margin: 0;
 }
 
+/* 768px için "Hakkında" bölümü responsive ayarları */
+@media (max-width: 768px) {
+  #about .timeline {
+    flex-direction: column;
+    gap: 1rem;
+    padding: 0.5rem;
+  }
+  #about .timeline-item {
+    margin-bottom: 1rem;
+    width: 100%;
+    position: relative;
+  }
+  /* Bağlantı çizgilerini kaldırarak daha sade bir görünüm elde edilir */
+  #about .timeline-item::before {
+    display: none;
+  }
+  #about .timeline-icon {
+    width: 10vh;
+    height: 4vh;
+    font-size: 2vh;
+    margin-bottom: 1rem;
+  }
+  #about .timeline-content {
+    max-width: 90%;
+    min-width: 0;
+    margin: 0 auto;
+    padding: 1rem;
+    max-height: 20%;
+    min-height: 20%;
+  }
+  #about .timeline-content p {
+    font-size: 0.9rem;
+  }
+  #about .timeline-content h3 {
+    font-size: 1.75rem;
+  }
+}
+
+/* 480px için ek düzenlemeler */
+@media (max-width: 480px) {
+  #about .timeline {
+    flex-direction: column;
+    gap: 0.75rem;
+    padding: 0.5rem;
+  }
+  #about .timeline-item {
+    margin-bottom: 0.5rem;
+    width: 100%;
+    position: relative;
+  }
+  #about .timeline-icon {
+    width: 10vh;
+    height: 4vh;
+    font-size: 1.5vh;
+    margin-bottom: 0.5rem;
+  }
+  #about .timeline-content {
+    max-width: 90%;
+    min-width: 0;
+    margin: 0 auto;
+    padding: 1rem;
+    max-height: 20%;
+    min-height: 20%;
+  }
+  #about .timeline-content p {
+    font-size: 0.8rem;
+  }
+  #about .timeline-content h3 {
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+  }
+}
+
 @keyframes gradientFlow {
   0% { background-position: 0% 50%; }
   100% { background-position: 200% 50%; }
