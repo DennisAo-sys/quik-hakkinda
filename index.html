@@ -453,7 +453,6 @@ Açı
     .about-title {
       font-size: 2.5rem;
       font-weight: 700;
-
       background: linear-gradient(
         90deg,
         transparent 0%,
@@ -466,8 +465,9 @@ Açı
       color: transparent;
       text-align: center;
       letter-spacing: 1px;
-
     }
+
+
 
     @keyframes slideGradient {
       0% { background-position: 100% 50%; }
@@ -500,6 +500,17 @@ Açı
       font-family: 'Montserrat', sans-serif;
       font-weight: 700;
     }
+   
+    @media (max-width: 768px) {
+     .modern-about h2 {
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+    }
+     .modern-about p {
+      font-size: 0.75em;
+    }
+    }
+
 
     @keyframes gradientShift {
       0% { background-position: 0% 50%; }
@@ -652,10 +663,7 @@ Açı
   border-radius: 5vh;
   border: 2px solid #303030;
   backdrop-filter: blur(5px);
-  max-width: 55vh;
-  min-width: 55vh;
-  max-height: 30vh;
-  min-height: 30vh;
+
   box-shadow: 0 6px 12px rgba(0,0,0,0.4);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   overflow: hidden;
@@ -727,7 +735,7 @@ Açı
   #about .timeline {
     flex-direction: column;
     gap: 0.75rem;
-    padding: 0.5rem;
+    padding: 0.25rem;
   }
   #about .timeline-item {
     margin-bottom: 0.5rem;
@@ -750,10 +758,10 @@ Açı
     min-height: 20%;
   }
   #about .timeline-content p {
-    font-size: 0.8rem;
+    font-size: 0.4rem;
   }
   #about .timeline-content h3 {
-    font-size: 1.2rem;
+    font-size: 0.8rem;
     margin-bottom: 0.5rem;
   }
 }
@@ -865,7 +873,7 @@ Açı
         <div class="timeline-content">
           <h3>Başlangıç</h3>
           <p>
-            Quik, modern bir yapay zeka modeli olarak, Transformers tabanlı modern bir mimari ile tasarlanmaya başladı.
+            Quik, modern bir yapay zeka asistanı olarak, Transformers tabanlı modern bir mimari ile tasarlanmaya başladı.
           </p>
         </div>
       </div>
@@ -889,7 +897,7 @@ Açı
         <div class="timeline-content">
           <h3>Yolculuk</h3>
           <p>
-            Hız ve inovasyon odaklı Quik, gelecekte daha hızlı bir model olmak için her gün yenileniyor ve geliştiriliyor.
+            Hız ve inovasyon odaklı Quik, gelecekte daha hızlı bir model olmak için sürekli yenileniyor ve geliştiriliyor.
           </p>
         </div>
       </div>
