@@ -6,10 +6,10 @@
   <title>Quik</title>
   <link rel="icon" href="icons/quik_icon.png" type="image/png" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet" />
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;600&display=swap" rel="stylesheet" />
   <style>
     :root {
-      --primary-bg: #0d1117;
+      --primary-bg: #171717;
       --secondary-bg: #161b22;
       --text-primary: #e6edf3;
       --text-secondary: #8b949e;
@@ -273,11 +273,11 @@
       bottom: 8%;
       left: 50%;
       transform: translate(-50%, -50%);
-      padding: 2.5vh 5vh;
+      padding: 2.2vh 4.4vh;
       background: var(--home-text);
-      color: var(--home-primary);
+      color: #212121;
       text-decoration: none;
-      font-size: 2.5vh;
+      font-size: 2.2vh;
       border-radius: 5vh;
       transition: background 0.5s ease, transform 0.5s ease;
       animation: pulseGlow 5s infinite ease-in-out;
@@ -287,7 +287,7 @@
     #home .btn-text {
       position: fixed;
       bottom: 14%;
-      right: 10%;
+      right: 12%;
       display: flex;
       align-items: center;
       justify-content: flex-end;
@@ -330,7 +330,7 @@
       #home .btn-text {
         right: 50%;
         bottom: 42%;
-        font-size: 0.8rem;
+        font-size: 0.9rem;
         white-space: nowrap;
       }
     }
@@ -349,44 +349,78 @@
     #about h2 {
       font-size: 2.5rem;
       font-weight: 600;
-      margin-bottom: 2rem;
-      color: var(--highlight);
+      margin-bottom: 1rem;
+      color: #fff;
     }
 
-    .history-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 1.5rem;
-      max-height: 70vh; /* Grid'in taşmasını önlemek için maksimum yükseklik */
-      padding: 1rem;
-    }
+  .history-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  max-height: 70vh;
+  padding: 1rem;
+}
 
-    .history-item {
-      background: var(--secondary-bg);
-      padding: 1rem;
-      border-radius: 10px;
-      transition: transform 0.3s ease;
-      min-height: 100px; /* Minimum yükseklik ile tutarlılık */
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
+.history-item {
+  background: #272727;
+  padding: 1rem;
+  border-radius: 10px;
+  transition: transform 0.3s ease;
+  max-height: 150px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 60%;
+  z-index: 9999;
+}
+
+.history-item:nth-child(odd) {
+  align-self: flex-end;
+}
+
+.history-item:nth-child(even) {
+  align-self: flex-start;
+}
+
 
     .history-item:hover {
       transform: translateY(-10px);
     }
 
     .history-item h3 {
-      font-size: 1.2rem;
+      font-size: 1.1rem;
       color: var(--text-primary);
       margin-bottom: 0.5rem;
     }
 
     .history-item p {
-      font-size: 1rem;
+      font-size: 0.9rem;
       color: var(--text-secondary);
       flex-grow: 1; /* İçeriğin esnek şekilde dolmasını sağlar */
     }
+
+@media (max-width: 480px) {
+  .history-grid {
+    align-items: center;
+  }
+
+  .history-item {
+    width: 100%;
+    padding: 1.2rem;
+    font-size: 1rem;
+  }
+
+  .history-item h3 {
+    font-size: 1.1rem;
+  }
+
+  .history-item p {
+    font-size: 0.95rem;
+  }
+}
+
+
+
 
     /* Meet Section (Güncellenmiş) */
     #meet .content {
@@ -398,8 +432,8 @@
     #meet h2 {
       font-size: 2.5rem;
       font-weight: 600;
-      margin-bottom: 2rem;
-      color: var(--highlight);
+      margin-bottom: 1rem;
+      color: #fff;
     }
 
     .models-grid {
@@ -412,15 +446,16 @@
     }
 
     .model-card {
-      background: var(--secondary-bg);
-      padding: 2rem;
+      background: #272727;
+      padding: 1.5rem;
       border-radius: 10px;
-      border: 1px solid var(--highlight);
+      border: none;
       transition: all 0.3s ease;
-      min-height: 180px; /* Minimum yükseklik ile tutarlılık */
       display: flex;
       flex-direction: column;
       justify-content: space-between;
+      backdrop-filter: none;
+      z-index: 1;
     }
 
     .model-card:hover {
@@ -450,7 +485,7 @@
     .feature-text h2 {
       font-size: 2.5rem;
       font-weight: 600;
-      color: var(--highlight);
+      color: #fff;
       margin-bottom: 1rem;
     }
 
@@ -479,7 +514,7 @@
       bottom: 0;
       width: 100%;
       padding: 1rem;
-      background: var(--secondary-bg);
+      background: #000000;
       text-align: center;
       color: var(--text-secondary);
       font-size: 0.9rem;
@@ -612,16 +647,19 @@
 
   /* Hakkında Bölümü */
   .history-grid {
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Daha küçük kutular */
+    flex-direction: row;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    overflow-y: hidden;
+    justify-content: flex-start;
+    align-items: stretch;
     gap: 1rem;
-    max-height: none; /* Sabit yükseklik sınırını kaldır */
-    overflow-y: visible; /* Kaydırma yerine doğal akış */
-    padding: 0.5rem;
   }
 
   .history-item {
-    min-height: 100px; /* Daha kompakt kutular */
-    padding: 1rem;
+    width: 300px;
+    min-height: 150px;
+    flex-shrink: 0;
   }
 
   .history-item h3 {
@@ -712,6 +750,34 @@
   }
 }
 
+#bgWavesCanvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 0;
+  pointer-events: none;
+  background: transparent;
+}
+
+#home ~ #bgWavesCanvas {
+  display: block;
+}
+
+#home + canvas#bgWavesCanvas,
+#home ~ canvas#bgWavesCanvas {
+  display: none;
+}
+
+#about,
+#meet,
+#prime,
+#think {
+  opacity: 1 !important;
+  transition: none !important;
+}
+
 
   </style>
 </head>
@@ -747,11 +813,11 @@
         <div class="history-grid">
           <div class="history-item">
             <h3>2024 - Doğuş</h3>
-            <p>Quik, yenilikçi bir yapay zeka çözümü olarak geliştirilmeye başlandı.</p>
+            <p>Quik, modern bir yapay zeka olarak geliştirilmeye başladı.</p>
           </div>
           <div class="history-item">
             <h3>2025 - Lansman</h3>
-            <p>Quik, güçlü altyapısıyla kullanıcılarla buluştu.</p>
+            <p>Simülasyonlarını tamamladıktan sonra kullanıcılarla buluştu.</p>
           </div>
           <div class="history-item">
             <h3>Gelecek - Vizyon</h3>
@@ -777,27 +843,34 @@
       </div>
     </section>
 
-    <section id="prime" class="section">
-      <div class="content">
-        <div class="feature-text">
-          <h2>Quik-Prime</h2>
-          <p>Hız ve verimlilikle günlük görevlerinizi kolaylaştırır, iş akışınızı optimize eder.</p>
-        </div>
-        <div class="feature-image"></div>
-      </div>
-    </section>
+<section id="prime" class="section">
+  <div class="content">
+    <div class="feature-image image-left"></div>
+    <div class="feature-text text-right">
+      <h2>Quik-Prime</h2>
+      <p>
+        Quik-Prime, yoğun iş temponuza ayak uyduran hızlı ve sezgisel bir yapay zeka asistanıdır. Günlük görevlerinizi otomatikleştirerek size zaman kazandırır.
+      </p>
+    </div>
+  </div>
+</section>
 
-    <section id="think" class="section">
-      <div class="content">
-        <div class="feature-text">
-          <h2>Quik-Think</h2>
-          <p>Mantıksal analiz ve problem çözme için tasarlanmış güçlü bir araç.</p>
-        </div>
-        <div class="feature-image"></div>
-      </div>
-    </section>
+<section id="think" class="section">
+  <div class="content">
+    <div class="feature-image image-left"></div>
+    <div class="feature-text text-right">
+      <h2>Quik-Think</h2>
+      <p>
+        Quik-Think, mantıksal çıkarımlar ve karmaşık analizler için optimize edilmiştir. Veri odaklı karar alma süreçlerinde size rehberlik eder.
+      </p>
+    </div>
+    <div class="feature-image image-right"></div>
+  </div>
+  </div>
+</section>
+
   </main>
-
+<canvas id="bgWavesCanvas"></canvas>
   <footer>
     <p>© 2025 Quik. Tüm hakları saklıdır.</p>
   </footer>
@@ -968,6 +1041,118 @@
     document.querySelector('.menu-toggle').addEventListener('click', () => {
       document.querySelector('.nav-links').classList.toggle('active');
     });
+
+function animateStarsAttention() {
+  const canvas = document.getElementById('bgWavesCanvas');
+  const ctx = canvas.getContext('2d');
+
+  let width = window.innerWidth;
+  let height = window.innerHeight;
+  canvas.width = width;
+  canvas.height = height;
+
+  const stars = [];
+  const numStars = 30;
+
+  class Star {
+    constructor() {
+      this.reset();
+    }
+
+    reset() {
+      this.x = Math.random() * width;
+      this.y = Math.random() * height;
+      this.vx = (Math.random() - 0.5) * 0.3;  // Daha yavaş hareket
+      this.vy = (Math.random() - 0.5) * 0.3;
+      this.radius = Math.random() * 1.5 + 1;
+      const gray = Math.floor(180 + Math.random() * 50); // 180–230 arası gri ton
+      this.color = `rgb(${gray},${gray},${gray})`;
+    }
+
+    update() {
+      this.x += this.vx;
+      this.y += this.vy;
+
+      if (this.x < 0 || this.x > width || this.y < 0 || this.y > height) {
+        this.reset();
+      }
+    }
+
+    draw() {
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+      ctx.fillStyle = this.color;
+      ctx.shadowColor = this.color;
+      ctx.shadowBlur = 10;
+      ctx.fill();
+    }
+  }
+
+  function distance(a, b) {
+    return Math.hypot(a.x - b.x, a.y - b.y);
+  }
+
+  function drawConnections() {
+    for (let i = 0; i < stars.length; i++) {
+      for (let j = i + 1; j < stars.length; j++) {
+        const dist = distance(stars[i], stars[j]);
+        if (dist < 120) {
+          ctx.beginPath();
+          ctx.moveTo(stars[i].x, stars[i].y);
+          ctx.lineTo(stars[j].x, stars[j].y);
+          ctx.strokeStyle = `rgba(200,200,200,${1 - dist / 120})`;
+          ctx.lineWidth = 0.5;
+          ctx.stroke();
+        }
+
+      }
+    }
+  }
+
+  function animate() {
+    ctx.clearRect(0, 0, width, height);
+    stars.forEach(star => {
+      star.update();
+      star.draw();
+    });
+    drawConnections();
+    requestAnimationFrame(animate);
+  }
+
+  // Başlat
+  for (let i = 0; i < numStars; i++) {
+    stars.push(new Star());
+  }
+  animate();
+
+  window.addEventListener('resize', () => {
+    width = window.innerWidth;
+    height = window.innerHeight;
+    canvas.width = width;
+    canvas.height = height;
+  });
+}
+
+// Sadece home dışında canvas görünür olsun
+document.addEventListener('DOMContentLoaded', () => {
+  const canvas = document.getElementById('bgWavesCanvas');
+
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.target.id === 'home') {
+        canvas.style.display = entry.isIntersecting ? 'none' : 'block';
+      }
+    });
+  }, { threshold: 0.5 });
+
+  const home = document.getElementById('home');
+  if (home) observer.observe(home);
+
+  animateStarsAttention();
+});
+
+
+
 
     // Initialize Home Animation
     animateHome();
